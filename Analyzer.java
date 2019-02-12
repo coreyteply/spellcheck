@@ -63,8 +63,10 @@ public class Analyzer{
          updateNext();
          mathIndex=3;
          handleMath3();
-      }else if(currentToken.contains("includegraphics") || currentToken.charAt(0)=='%'){
+      }else if(canSkipLine()){
          skipLine();
+      }else if(currentToken.contains("begin{tikzpicture}")){
+         handleTikz();
       }else if(currentToken.charAt(0)=='\\'){
          updateNext();
          scanNext();
@@ -225,7 +227,26 @@ public class Analyzer{
       updateNext();
       handleMath3();
     }
-      
+  }  
+  
+  private static void handleTikz(){
+   
+      if(currentToken.equals("\\end{tikzpicture}")){
+         updateNext();
+         scanNext();
+      }else{
+         updateNext();
+         handleTikz();
+      }
+  }
+  
+  
+  private static boolean canSkipLine(){
+  
+     if(currentToken.contains("includegraphics") || currentToken.charAt(0)=='%'){
+         return true;
+     }   
+     return false;
   
   }
   
