@@ -4,20 +4,19 @@ import java.io.FileNotFoundException;
 
 public class ReadFile{
 
-   public static File inputFile;
-   public static Scanner toParse;
+   private File inputFile;
 
-   public static void readFile(String args[]) throws FileNotFoundException{
+   void readFile(String args[]) throws FileNotFoundException{
    
       if(handleArguments(args)){
-         toParse = new Scanner(inputFile);
+         Scanner toParse = new Scanner(inputFile);
          Analyzer.scanInput(toParse);
       }
    }
    
-   public static final String USAGE = "Usage: SpellCheck input_tex_file.";
+   private static final String USAGE = "Usage: SpellCheck input_tex_file.";
 
-   static boolean handleArguments(String[] args){
+   private boolean handleArguments(String[] args){
 
       if(args.length != 1){
          System.out.println("Wrong number of command line arguments.");

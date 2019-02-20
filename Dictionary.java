@@ -6,11 +6,11 @@ public class Dictionary{
 
   private static final int NUMWORDS = 369892;
   private static final int NUMLINES = 514;
-  public static String[] catalog;
-  public static int [][] table;
-  private static String lastWord;
+  String[] catalog;
+  int [][] table;
+  private String lastWord;
   
-  public static void uploadDictionary() throws FileNotFoundException{
+  void uploadDictionary() throws FileNotFoundException{
    
       try{
          File dictionary = new File("dictionary_inorder.txt");
@@ -25,7 +25,7 @@ public class Dictionary{
         
    } 
    
-   private static void updateLocalDict(Scanner x){
+   private void updateLocalDict(Scanner x){
    
       catalog = new String[NUMWORDS];
       int i=0;
@@ -37,7 +37,7 @@ public class Dictionary{
       }
    }
    
-   private static void updateTableofContents(){
+   private void updateTableofContents(){
    
       try{
          File input = new File("finalTOC.txt");
@@ -59,7 +59,7 @@ public class Dictionary{
    }
       
    
-   public static void readWord(String x, int line, int tokenNum){
+   void readWord(String x, int line, int tokenNum){
    
       //System.out.println(x);
       if(x.equals(lastWord)){
@@ -79,7 +79,7 @@ public class Dictionary{
       }   
    }
     
-    private static int[] findContents(int len, int ascii){
+    private int[] findContents(int len, int ascii){
       
       int[] toReturn = new int[2];
       int i=0;
@@ -104,7 +104,7 @@ public class Dictionary{
       return toReturn;
    }
    
-   private static boolean checkSpelling(int lb, int ub, String word){
+   private boolean checkSpelling(int lb, int ub, String word){
    
       int localLB = lb;
        while(localLB<=ub){

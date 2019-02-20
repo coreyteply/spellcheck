@@ -6,7 +6,8 @@ public class SpellCheck{
 
    public static void main(String[] args) throws FileNotFoundException{
    
-     ReadFile.readFile(args);
+     ReadFile toRead = new ReadFile();
+     toRead.readFile(args);
      System.gc();
 
    
