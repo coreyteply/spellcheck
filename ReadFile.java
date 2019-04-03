@@ -10,7 +10,8 @@ public class ReadFile{
    
       if(handleArguments(args)){
          Scanner toParse = new Scanner(inputFile);
-         Analyzer.scanInput(toParse);
+         LexAnalyzer scan = new LexAnalyzer();
+         scan.scanInput(toParse);
       }
    }
    

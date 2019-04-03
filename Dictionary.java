@@ -6,8 +6,10 @@ public class Dictionary{
 
   private static final int NUMWORDS = 369892;
   private static final int NUMLINES = 514;
+  private static final int NUMFUNCS = 54;
   String[] catalog;
   int [][] table;
+  String[] funcs;
   private String lastWord;
   
   void uploadDictionary() throws FileNotFoundException{
@@ -17,6 +19,7 @@ public class Dictionary{
          Scanner words = new Scanner(dictionary);
          updateLocalDict(words);
          updateTableofContents();
+         updateLatexFunctions();
          lastWord="1";
          System.out.println("uploaded dictionary and TOC");
       }catch (Exception e){
@@ -57,26 +60,63 @@ public class Dictionary{
       } 
    
    }
+   
+   private void updateLatexFunctions(){
+   
+      try{
+         File input = new File("latex_functions.txt");
+         Scanner toParse = new Scanner (input);
+         funcs = new String[NUMFUNCS];
+         int i=0;
+         while(toParse.hasNextLine() && i<NUMFUNCS){
+            String x = toParse.next();
+            funcs[i] = x;
+            i++;
+         }
+      }catch(Exception e){
+         System.out.println(e);
+         System.out.println("latex_functions.txt DID NOT LOAD! Put it in the directory.");
+      }
+   
+   }
       
    
    void readWord(String x, int line, int tokenNum){
    
+      if(notLatexFunction(x)){
       //System.out.println(x);
-      if(x.equals(lastWord)){
-         System.out.println("Repeated word: \""+x+"\" at line: "+line+" at token number: "+tokenNum);
-      }else{
-         lastWord=x;
-         int wordLen = x.length();
-         int firstLetter = (int) x.charAt(0);
-         int[] bounds1 = findContents(wordLen, firstLetter);
-         int lowerBound1 = bounds1[0];
-         int upperBound1 = bounds1[1];
-         if(upperBound1!=-1){
-             if(!(checkSpelling(lowerBound1, upperBound1, x))){
-                System.out.println("MISPELLED: \""+x+"\" at line: "+line+" at token number: "+tokenNum);
-              }
-         }
-      }   
+         if(x.equals(lastWord)){
+            System.out.println("Repeated word: \""+x+"\" at line: "+line+" at token number: "+tokenNum);
+         }else{
+            lastWord=x;
+            int wordLen = x.length();
+            int firstLetter = (int) x.charAt(0);
+            int[] bounds1 = findContents(wordLen, firstLetter);
+            int lowerBound1 = bounds1[0];
+            int upperBound1 = bounds1[1];
+            if(upperBound1!=-1){
+                if(!(checkSpelling(lowerBound1, upperBound1, x))){
+                   System.out.println("MISPELLED: \""+x+"\" at line: "+line+" at token number: "+tokenNum);
+                 }
+            }
+         }  
+      } 
+   }
+   
+   private boolean notLatexFunction(String x){
+      
+      int i=0;
+      while(i<NUMFUNCS){
+         if(funcs[i].equals(x)){
+            return false;
+          }else{
+            i++;
+          }
+       }
+       
+       return true;
+   
+   
    }
     
     private int[] findContents(int len, int ascii){
