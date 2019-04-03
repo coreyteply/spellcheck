@@ -41,12 +41,10 @@ public class LexAnalyzer{
       
       if(currentLine.hasNext()){
          currentToken = currentLine.next();
-         //System.out.println(currentToken +" "+line+" "+tokenNum);
          tokenNum++;
       }else if(input.hasNextLine() && !(currentLine.hasNext())){
          currentLine = new Scanner(input.nextLine());
          line++;
-         //System.out.println(line);
          tokenNum=0;
          updateNext();
       }else{
@@ -65,7 +63,6 @@ public class LexAnalyzer{
          scanNext();
       }else if(currentToken.contains("\\") && currentToken.contains("{")){
          parseToken(0);
-         //System.out.println("made it back to scanNext();");
          updateNext();
          scanNext();
       }else{
@@ -83,10 +80,8 @@ public class LexAnalyzer{
       int i = currentChar;
       while(i<tokenLength){
          if(currentToken.charAt(i)=='{'){
-            //System.out.println("parseToken step1");
             i++;
             if(i<tokenLength && currentToken.charAt(i)!='\\'){
-               //System.out.println("parseToken step2");
                compileWord(tokenLength, i);
                i++;
             }else{
@@ -98,11 +93,6 @@ public class LexAnalyzer{
        }
     }
    
-   private void parseMath(){
-   
-   
-   }
-   
    private void compileWord(int length, int currentChar){
    
       int i = currentChar;
@@ -110,11 +100,9 @@ public class LexAnalyzer{
       StringBuilder toBuild = new StringBuilder();
       while(i<length){
          if(currentToken.charAt(i)=='}' || currentToken.charAt(i)=='\\'){
-            //System.out.println("compiled token");
             toPass = i;
             i = length+1;
           }else{
-            //System.out.println(currentToken.charAt(i));
             toBuild.append(currentToken.charAt(i));
             i++;
           }
@@ -125,8 +113,6 @@ public class LexAnalyzer{
        }else{
          checkWord2(toCheck);
        }
-       //if(toPass>0)
-         // parseToken(toPass);
    
    }
    
@@ -163,7 +149,6 @@ public class LexAnalyzer{
       while(i<length){
          if(x.charAt(i)=='}'){
             String y = separateWord.toString();
-           // System.out.println("in createSpace(): "+y);
             checkWord2(y);
             separateWord = new StringBuilder();
             i=i+2;
@@ -179,7 +164,6 @@ public class LexAnalyzer{
    
    private void checkWord2(String x){
    
-      //System.out.println("in checkWord2: "+x);
       String tempToken = currentToken;
       currentToken = x;
       if(dopedToken()){
@@ -216,7 +200,7 @@ public class LexAnalyzer{
   
   private boolean canSkipLine(){
   
-      if(currentToken.contains("%") || currentToken.contains("tabular")){
+      if(currentToken.contains("%") || currentToken.contains("tabular") || currentToken.contains("usepackage")){
          return true;
       }else{
          return false;

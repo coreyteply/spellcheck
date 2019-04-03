@@ -12,6 +12,7 @@ public class Dictionary{
   String[] funcs;
   private String lastWord;
   
+  //uploads the dictionary and gets everything stored to be checked in the file you are checking
   void uploadDictionary() throws FileNotFoundException{
    
       try{
@@ -28,6 +29,7 @@ public class Dictionary{
         
    } 
    
+   //uploads all of the the words into an array
    private void updateLocalDict(Scanner x){
    
       catalog = new String[NUMWORDS];
@@ -40,6 +42,7 @@ public class Dictionary{
       }
    }
    
+   //uploads all of the indexes of each word according to length and first letter in the word
    private void updateTableofContents(){
    
       try{
@@ -61,6 +64,7 @@ public class Dictionary{
    
    }
    
+   //uploads all of the latex functions that could potentially be flagged for improper spelling
    private void updateLatexFunctions(){
    
       try{
@@ -80,11 +84,10 @@ public class Dictionary{
    
    }
       
-   
+   //checks to see if your word was spelled correctly
    void readWord(String x, int line, int tokenNum){
    
       if(notLatexFunction(x)){
-      //System.out.println(x);
          if(x.equals(lastWord)){
             System.out.println("Repeated word: \""+x+"\" at line: "+line+" at token number: "+tokenNum);
          }else{
@@ -119,6 +122,7 @@ public class Dictionary{
    
    }
     
+    //finds the range of words in the dictionary that the word you are currently checking based on first letter and length of the word
     private int[] findContents(int len, int ascii){
       
       int[] toReturn = new int[2];
@@ -129,9 +133,7 @@ public class Dictionary{
             while(j<21){
                if(len==table[i+j][1]){
                   toReturn[0]= table[i+j][2];
-                  toReturn[1]= table[i+j+1][2]; //make condition for last letter for z
-                 // System.out.println("contents: "+i+" "+j);
-                  //System.out.println("index: "+table[i+j][2]);
+                  toReturn[1]= table[i+j+1][2];
                   return toReturn;
                }else{
                   j++;
@@ -148,7 +150,6 @@ public class Dictionary{
    
       int localLB = lb;
        while(localLB<=ub){
-         //System.out.println("in checkspell: "+catalog[index[localLB]]);
           if(word.equals(catalog[localLB])){
              return true;
            }
