@@ -42,6 +42,7 @@ public class LexAnalyzer{
       if(currentLine.hasNext()){
          currentToken = currentLine.next();
          tokenNum++;
+         //System.out.println(line);
       }else if(input.hasNextLine() && !(currentLine.hasNext())){
          currentLine = new Scanner(input.nextLine());
          line++;
@@ -61,6 +62,8 @@ public class LexAnalyzer{
       }else if(canSkipToken()){
          updateNext();
          scanNext();
+      }else if(tikz()){
+         handleTikz();
       }else if(currentToken.contains("\\") && currentToken.contains("{")){
          parseToken(0);
          updateNext();
@@ -176,6 +179,18 @@ public class LexAnalyzer{
       currentToken = tempToken;
    
    }
+   
+   private void handleTikz(){
+   
+      while(!(currentToken.equals("\\end{tikzpicture}"))){
+         currentLine = new Scanner(input.nextLine());
+         line++;
+         tokenNum=0;
+         updateNext();
+      }
+      skipLine();
+   
+   }
 
    private void skipLine(){
   
@@ -196,6 +211,16 @@ public class LexAnalyzer{
          return false;
        }
   
+  }
+  
+  private boolean tikz(){
+      
+      if(currentToken.contains("tikzpicture")){
+         return true;
+      }else{
+         return false;
+      }
+      
   }
   
   private boolean canSkipLine(){
